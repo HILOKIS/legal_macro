@@ -1,6 +1,6 @@
 ﻿Attribute VB_Name = "Module2"
 
-Const user = "鈴木" '名前を記入
+Const user = "鈴木" '名前を記入してくださいね
 
 Sub tes()
 UserForm1.Show vbModeless
