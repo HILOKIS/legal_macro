@@ -27,62 +27,37 @@ Set rBook = Nothing
 
 End Sub
 
-
-Sub wordChange()
-
-    '①EXCEL置換テーブルを格納する
-    Dim rBook As Object, rRow As Object
-    rBook = GetObject("C:\Users\hiloki_suzuki\Desktop\TEST1.xlsx")
-
-    '②ドキュメントを検索置換モードに切り替え
-    With ActiveDocument.Content.Find
-
-        '③エクセルシートの検索置換範囲を行ごとに取り出す
-        For Each rRow In rBook.Worksheets(1).Range("wordChangeTable").Rows
-
-            '④二次元配列の列１が0でなく、かつ列２が空欄でない⑤を実行しない
-            If rRow.Cells(1).Value <> 0 And rRow.Cells(2).Value <> "" Then
-
-                '⑤二次元配列の列１が見つかったら列２に置換
-                Dim changeNum As Integer
-                changeNum = rRow.Cells(1).Value + 2
-
-                .Text = rRow.Cells(2).Value
-                .Replacement.Text = rRow.Cells(changeNum).Value
-                .Execute Replace:=wdReplaceAll
-
-            End If
-
-        Next rRow
-    End With
-
-    'rBook.Application.Quit
-
-    rBook = Nothing
-
-End Sub
+-------------------------------------------------------------------------------------------------------
 
 Sub contractName()
-    Dim FileName As String
+Dim FileName As String
 
 
-    '①現在の名前が定型かどうか判断
-    If InStr(ActiveDocument.Name, "【法務") = 0 Then
+'①現在の名前が定型かどうか判断
+If InStr(ActiveDocument.Name, "【法務") = 0 Then
 
-        '②定型でなければTaskListから名前作成
-        FileName = nameGene
+    '②定型でなければTaskListから名前作成
+     FileName = nameGene
 
-    Else
-        '③定型の場合は日付と改訂歴を更新
-        FileName = nameUpdate
+Else
+    '③定型の場合は日付と改訂歴を更新
+    FileName = nameUpdate
 
-    End If
+End If
 
 
-    ActiveDocument.SaveAs2 FileName
+ActiveDocument.SaveAs2 FileName
 
 End Sub
 
+Function nameUpdate()
+
+'①更新履歴回数を取得　インクリメントする
+Dim cnt As Long
+cnt = Mid(ActiveDocument.Name, 5, 1) + 1
+nameUpdate = ActiveDocument.Path & "\【法務(" & cnt & ")" & Format(Date, "yymmdd") & "】" & Mid(ActiveDocument.Name, 14)
+   
+End Function
 Function nameGene()
 
 '①TaskListの項番を取得
