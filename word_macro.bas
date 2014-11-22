@@ -1,19 +1,19 @@
-Sub replaceWords_fromExcel()
+Sub replaceWords_fromExcelTable()
 
-    'â‘ EXCELç½®æ›ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æ ¼ç´ã™ã‚‹
+    '‡@EXCEL’uŠ·ƒe[ƒuƒ‹‚ğŠi”[‚·‚é
     Dim rBook As Object, rRow As Object
-    rBook = GetObject(activedoument.Path & "\ç½®æ›ãƒ†ãƒ¼ãƒ–ãƒ«.xlsx")
+    rBook = GetObject(activedoument.Path & "\’uŠ·ƒe[ƒuƒ‹.xlsx")
 
-    'â‘¡ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’æ¤œç´¢ç½®æ›ãƒ¢ãƒ¼ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆ
+    '‡AƒhƒLƒ…ƒƒ“ƒg‚ğŒŸõ’uŠ·ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦
     With ActiveDocument.Content.Find
 
-        'â‘¢ã‚¨ã‚¯ã‚»ãƒ«ã‚·ãƒ¼ãƒˆã®æ¤œç´¢ç½®æ›ç¯„å›²ã‚’è¡Œã”ã¨ã«å–ã‚Šå‡ºã™
-        For Each rRow In rBook.worksheets(1).Range("æ¤œç´¢ç½®æ›ã‚»ãƒƒãƒˆ").Rows
+        '‡BƒGƒNƒZƒ‹ƒV[ƒg‚ÌŒŸõ’uŠ·”ÍˆÍ‚ğs‚²‚Æ‚Éæ‚èo‚·
+        For Each rRow In rBook.worksheets(1).Range("ŒŸõ’uŠ·ƒZƒbƒg").Rows
 
-            'â‘£äºŒæ¬¡å…ƒé…åˆ—ã®åˆ—ï¼‘ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã‚‰Nextå‡¦ç†
+            '‡C“ñŸŒ³”z—ñ‚Ì—ñ‚P‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚çNextˆ—
             If rRow.Cells(1).Value = "" Then Exit For
 
-            'â‘¤äºŒæ¬¡å…ƒé…åˆ—ã®åˆ—ï¼‘ãŒè¦‹ã¤ã‹ã£ãŸã‚‰åˆ—ï¼’ã«ç½®æ›
+            '‡D“ñŸŒ³”z—ñ‚Ì—ñ‚P‚ªŒ©‚Â‚©‚Á‚½‚ç—ñ‚Q‚É’uŠ·
             .Text = rRow.Cells(1).Value
             .Replacement.Text = rRow.Cells(2).Value
             .Execute Replace:=wdReplaceAll
@@ -24,6 +24,38 @@ Sub replaceWords_fromExcel()
     rBook.Application.Quit()
 
     rBook = Nothing
+
+End Sub
+
+Sub ƒwƒbƒ_[‚Éƒtƒ@ƒCƒ‹–¼‚ğ“ü‚ê‚é3()
+
+    Dim myRange As Range
+
+    myRange = ActiveDocument.Sections(1). _
+          Headers(wdHeaderFooterPrimary).Range
+
+    With myRange
+
+        'ƒtƒ@ƒCƒ‹–¼‚Ì‘}“üiƒeƒLƒXƒgj
+        .Text = ActiveDocument.Name
+
+        '‰E‘µ‚¦
+        .Paragraphs.Alignment = wdAlignParagraphRight
+
+    End With
+
+    myRange = Nothing
+
+End Sub
+
+Sub OutLineLevel_BodyText()
+
+    'ˆêŠ‡‰ğœ
+    Dim myPara As Paragraph
+
+    For Each myPara In ActiveDocument.Paragraphs
+        myPara.Format.OutlineLevel = wdOutlineLevelBodyText
+     Next
 
 End Sub
 
@@ -43,21 +75,21 @@ vba = InputBox("Password")
 End Sub
 
 Sub saveVersionUpdateWithComments()
-    'â—‹å®šå‹ï¼‹å¥‘ç´„æ›¸ã‚¿ã‚¤ãƒˆãƒ«ï¼‹ï¼ˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆï¼‰ã§åˆå›å‘½å
-    'â‘ åå‰ãŒå®šå‹ã‹ã‚’åˆ¤æ–­ â†’æœ€åˆã®æ‹¬å¼§ã‚’å‰Šé™¤ã—ã¦æ–°ã—ãè¿½åŠ 
-    If InStr(ActiveDocument.Name, ")ã€‘") > 0 Then
+    '›’èŒ^{Œ_–ñ‘ƒ^ƒCƒgƒ‹{iƒNƒ‰ƒCƒAƒ“ƒgj‚Å‰‰ñ–½–¼
+    '‡@–¼‘O‚ª’èŒ^‚©‚ğ”»’f ¨Å‰‚ÌŠ‡ŒÊ‚ğíœ‚µ‚ÄV‚µ‚­’Ç‰Á
+    If InStr(ActiveDocument.Name, ")z") > 0 Then
         Dim i As Integer
         i = Mid(ActiveDocument.Name, 11, 1)
         i = i + 1
-         ActiveDocument.SaveAs2 FileName:=ActiveDocument.Path & "\ã€" & Format(Date, "yymmdd") & "æ³•å‹™(" & i & ")ã€‘" & Mid(ActiveDocument.Name, 14)
+         ActiveDocument.SaveAs2 FileName:=ActiveDocument.Path & "\y" & Format(Date, "yymmdd") & "–@–±(" & i & ")z" & Mid(ActiveDocument.Name, 14)
     End If
-    'â‘¡åŒåã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã£ãŸå ´åˆã¯å³ç«¯ã«â‘¡ãƒ»ãƒ»ãƒ»ã‚’è¿½åŠ 
+    '‡A“¯–¼‚Ìƒtƒ@ƒCƒ‹‚ª‚ ‚Á‚½ê‡‚Í‰E’[‚É‡AEEE‚ğ’Ç‰Á
 End Sub
 
-Sub saveWithNoComments()
-    'â—‹å®šå‹ï¼‹å¥‘ç´„æ›¸ã‚¿ã‚¤ãƒˆãƒ«ï¼‹ï¼ˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆï¼‰ã§åˆå›å‘½å
-    'â‘ åå‰ãŒå®šå‹ã‹ã‚’åˆ¤æ–­ â†’æœ€åˆã®æ‹¬å¼§ã‚’å‰Šé™¤ã—ã¦æ–°ã—ãè¿½åŠ 
-    If InStr(ActiveDocument.Name, ")ã€‘") > 0 Then
+Sub saveWithoutComments()
+    '›’èŒ^{Œ_–ñ‘ƒ^ƒCƒgƒ‹{iƒNƒ‰ƒCƒAƒ“ƒgj‚Å‰‰ñ–½–¼
+    '‡@–¼‘O‚ª’èŒ^‚©‚ğ”»’f ¨Å‰‚ÌŠ‡ŒÊ‚ğíœ‚µ‚ÄV‚µ‚­’Ç‰Á
+    If InStr(ActiveDocument.Name, ")z") > 0 Then
 
         ActiveDocument.AcceptAllRevisions()
         ActiveDocument.TrackRevisions = False
@@ -65,9 +97,9 @@ Sub saveWithNoComments()
         Dim i As Integer
         i = Mid(ActiveDocument.Name, 11, 1)
         i = i
-        ActiveDocument.SaveAs2 FileName:=ActiveDocument.Path & "\ã€å±¥æ­´ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆãªã—(" & i & ")ã€‘" & Mid(ActiveDocument.Name, 14)
+        ActiveDocument.SaveAs2 FileName:=ActiveDocument.Path & "\y—š—ğEƒRƒƒ“ƒg‚È‚µ(" & i & ")z" & Mid(ActiveDocument.Name, 14)
     End If
-    'â‘¡åŒåã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã£ãŸå ´åˆã¯å³ç«¯ã«â‘¡ãƒ»ãƒ»ãƒ»ã‚’è¿½åŠ 
+    '‡A“¯–¼‚Ìƒtƒ@ƒCƒ‹‚ª‚ ‚Á‚½ê‡‚Í‰E’[‚É‡AEEE‚ğ’Ç‰Á
 End Sub
 
 Sub rightClickMenu()
@@ -76,18 +108,23 @@ Sub rightClickMenu()
         .Reset()
 
         With .Controls.Add(Type:=msoControlButton, Before:=1)
-            .Caption = "å¥‘ç´„æ›¸æ”¹è¨‚ä¿å­˜"
-            .OnAction = "specialSave"
+            .Caption = "Œ_–ñ‘‰ü’ù•Û‘¶"
+            .OnAction = "saveVersionUpdateWithComments"
         End With
 
         With .Controls.Add(Type:=msoControlButton, Before:=2)
-            .Caption = "æ¤œç´¢ç½®æ›"
+            .Caption = "ŒŸõ’uŠ·"
             .OnAction = "wordChange"
         End With
 
         With .Controls.Add(Type:=msoControlButton, Before:=3)
-            .Caption = "å±¥æ­´ãªã—"
-            .OnAction = "specialSave2"
+            .Caption = "—š—ğ‚È‚µ"
+            .OnAction = "saveWithoutComments"
+        End With
+
+        With .Controls.Add(Type:=msoControlButton, Before:=3)
+            .Caption = "ƒwƒbƒ_[‚É–¼Ì"
+            .OnAction = "ƒwƒbƒ_[‚Éƒtƒ@ƒCƒ‹–¼‚ğ“ü‚ê‚é3"
         End With
 
     End With
